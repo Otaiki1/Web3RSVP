@@ -35,6 +35,9 @@ contract Web3RSVP{
                                     )
                                 );
 
+        //to ensure the id isnt already claimed
+        require(idToEvent[eventId].eventTimestamp == 0, "ALREADY REGISTERED");
+
         address[] memory confirmedRSVPs;
         address[] memory claimedRSVPs;
 
