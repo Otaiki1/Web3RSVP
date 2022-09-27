@@ -15,5 +15,7 @@ contract Web3RSVP{
         address[] claimedRSVPs;
         bool paidOut;
     }
+    // a mapping that maps a unique event id to the event
+    mapping(bytes32 => CreateEvent) public idToEvent;
     
 }
