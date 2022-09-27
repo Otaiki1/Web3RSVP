@@ -54,4 +54,26 @@ contract Web3RSVP{
             false
         );
     }
+    function createNewRSVP(bytes32 eventId) external payable{
+        //look up event fro our mapping
+        CreateEvent storage myEvent = idToEvent[eventId];
+
+        //transfer deposit to our contract/ require that they sned in enough ether to cover deposit amt of the specific event
+        require(msg.value == myEvent.deposit, "NOT ENOUGH");
+
+        //require that the event hasnt alrready happened ref. to event timestamp 
+        require(block.timestamp <= myEvent.eventTimestamp, "ALREADY HAPPENED");
+
+        //make sure event is under max capacity
+        require(
+            myEvent.confirmedRSVPs.length < myEvent.maxCapacity, "EVENT FULL"
+        );
+
+        //require that msg.sender hasnt already RSVP`d
+        for (uint8 i = 0; i < myEvent.confirmedRSVPs.length; i++){
+            require(myEvent.confirmedRSVPs[i] != msg.sender);
+        }
+
+        myEvent.confirmedRSVPs.push(payable(msg.sender));
+    }
 }
