@@ -14,7 +14,7 @@ contract Web3RSVP{
     );
 
     //event for when someone rsvps
-    event NewRSVP(bytes32 eventID, address attendeeAddress);
+    event NewRSVP(bytes32 eventId, address attendeeAddress);
 
     //event for when an attendee has been confirmed
     event ConfirmedAttendee(bytes32 eventId, address attendeeAddress);
@@ -72,6 +72,8 @@ contract Web3RSVP{
             claimedRSVPs,
             false
         );
+
+        emit NewEventCreated(eventId, msg.sender, eventTimestamp, maxCapacity, deposit, eventDataCID);
     }
     //function that allows people rsvp to events
     function createNewRSVP(bytes32 eventId) external payable{
@@ -95,6 +97,8 @@ contract Web3RSVP{
         }
 
         myEvent.confirmedRSVPs.push(payable(msg.sender));
+
+        emit NewRSVP(eventId, msg.sender);
     }
     // afunction that checks in single attendees
     function confirmAttendee(bytes32 eventId, address attendee) public {
@@ -133,6 +137,8 @@ contract Web3RSVP{
         }
 
         require(sent, "ETHER NOT SENT");
+        
+        emit ConfirmedAttendee(eventId, attendee);
     }
 
     //function that confirms everyone that RSVPd at once
@@ -181,6 +187,6 @@ contract Web3RSVP{
 
         require(sent, "PAYOUT FAILED");
 
-
+        emit DepositsPaidOut(eventId);
     }
 }
