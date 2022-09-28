@@ -129,4 +129,39 @@ contract Web3RSVP{
             confirmAttendee(eventId, myEvent.confirmedRSVPs[i]);
         }
     }
+    //function that sends all unclaimed deposits back to event Owner
+    function withdrawUnclaimedDeposits(bytes32 eventId) external {
+
+        //look up event
+        CreateEvent storage myEvent  = idToEvent[eventId];
+
+        //check out the paidOut  boolean is still false to be sure mone hasnt been paid out
+        require(!myEvent.paidOut, "ALREADY PAID");
+        
+        //check if its been 7 days past the event
+
+        require(block.timestamp >= (myEvent.eventTimestamp + 7 days), "TOO EARLY");
+
+        //only event owner can withdraw
+        require(msg.sender == myEvent.eventOwner, "NOT AUTHORIZED");
+
+        //calculate how many  people did not come and how much you would be paying
+        uint256 unclaimed = myEvent.confirmedRSVPs.length - myEvent.claimedRSVPs.length;
+        uint256 payout = unclaimed * myEvent.deposit;
+
+        // mark as paid to send to avoid reentrancy
+        myEvent.paidOut = true;
+
+        //send the payout to the owner
+        (bool sent, ) = msg.sender.call{value: payout}("");
+
+        //if this fails
+        if(!sent){
+            myEvent.paidOut  = false;
+        }
+
+        require(sent, "PAYOUT FAILED");
+
+
+    }
 }
