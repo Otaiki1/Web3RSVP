@@ -115,5 +115,18 @@ contract Web3RSVP{
 
         require(sent, "ETHER NOT SENT");
     }
-    
+
+    //function that confirms everyone that RSVPd at once
+    function confirmAllAttendees(bytes32 eventId) external {
+        //look up event from our struct with the event ID
+        CreateEvent storage myEvent = idToEvent[eventId];
+
+        //ensure the caller is the event Owner
+        require(msg.sender == myEvent.eventOwner, "UNAUTHORIZED");
+
+        //confirm each attendee in the RSVP array
+        for(uint8 i =0; i < myEvent.confirmedRSVPs.length; i++){
+            confirmAttendee(eventId, myEvent.confirmedRSVPs[i]);
+        }
+    }
 }
