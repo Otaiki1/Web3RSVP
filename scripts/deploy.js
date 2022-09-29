@@ -58,7 +58,15 @@ const main = async() => {
     console.log("CONFIRMED__--___", event.args.attendeeAddress);
   })
   
+  //Considerng we cant withdraw until after 7 days , we simulate padding of days then we try
+  //to withdraw
 
+  //wait 10 years
+  await hre.network.provider.send("evm_increaseTime", [15778800000000]);
+
+  txn = await rsvpContract.withdrawUnclaimedDeposits(eventID);
+  wait = await txn.wait();
+  console.log("WITHDRAWM___----____", wait.events[0].event, wait.events[0].args);
 
 
 }
