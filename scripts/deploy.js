@@ -50,6 +50,15 @@ const main = async() => {
   console.log("NEW RSVP::____----__", wait.events[0].event, wait.events[0].args);
 
 
+  //NOW WE CONFIRM ALL ATTENDEES , this checks the two functions simultaneously
+  txn = await rsvpContract.confirmAllAttendees(eventID);
+  wait = await txn.wait();
+  //cause its performing bulk stuff , it returns a n array
+  wait.events.forEach ((event) => {
+    console.log("CONFIRMED__--___", event.args.attendeeAddress);
+  })
+  
+
 
 
 }
