@@ -14,7 +14,7 @@ const main = async() => {
   //setup mock data
   let deposit = hre.ethers.utils.parseEther("1");
   let maxCapacity  = 3;
-  let timestamp = 1664443216;
+  let timestamp = 1664450416;
   let eventDataCID = "bafybeibhwfzx6oo5rymsxmkdxpmkfwyvbjrrwcl7cekmbzlupmp5ypkyfi";
 
 
