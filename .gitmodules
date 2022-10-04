@@ -1,0 +1,3 @@
+[submodule "web3rsvp-subgraph"]
+	path = web3rsvp-subgraph
+	url = git@github.com:Otaiki1/web3rsvp-subgraph.git
