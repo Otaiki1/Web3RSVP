@@ -1,3 +1,6 @@
 [submodule "web3rsvp-subgraph"]
 	path = web3rsvp-subgraph
 	url = git@github.com:Otaiki1/web3rsvp-subgraph.git
+[submodule "web3RSVP-frontend"]
+	path = web3RSVP-frontend
+	url = git@github.com:Otaiki1/web3RSVP-frontend.git
